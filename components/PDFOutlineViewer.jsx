@@ -9,51 +9,24 @@ import {
 } from "./ui/tree-view-api";
 
 
-interface OutlineItem {
-    action: any | null; // Additional action details if applicable
-    dest: string | null; // Destination for navigation
-    url: string | null; // External URL if present
-    title: string; // Title of the outline entry
-    color: {
-        [key: string]: number; // RGB color as an object with keys 0, 1, 2
-    };
-    bold: boolean; // Indicates if the title is bold
-    italic: boolean; // Indicates if the title is italic
-    items: OutlineItem[]; // Nested children outline items
-}
 
-interface TransformedOutlineItem {
-    id: string; // Unique identifier for Tree elements
-    isSelectable: boolean; // Indicates if this item is selectable
-    name: string; // Title of the outline entry
-    children: TransformedOutlineItem[]; // Transformed nested items
-    dest?: string | null; // Navigation destination
-    url?: string | null; // External URL if present
-}
-
-
-interface PDFOutlineViewerProps {
-    pdfDocument:any; // Replace with the actual PDFDocumentProxy type from PDF.js
-}
-
-
-const PDFOutlineViewer: React.FC<PDFOutlineViewerProps> = ({
+const PDFOutlineViewer= ({
     pdfDocument,
 }) => {
-    const [outline, setOutline] = useState<TransformedOutlineItem[] | null>(null);
+    const [outline, setOutline] = useState(null);
 
     // Fetch outline when the component mounts or pdfDocument changes
     useEffect(() => {
         if (!pdfDocument) return;
 
-        pdfDocument.getOutline().then((outlineData:any) => {
+        pdfDocument.getOutline().then((outlineData) => {
             setOutline(transformOutline(outlineData));
             console.log(outlineData)
         });
     }, [pdfDocument]);
 
     // Transform the outline into a nested structure compatible with the Tree component
-    const transformOutline = (outlineItems: OutlineItem[]): TransformedOutlineItem[] => {
+    const transformOutline = (outlineItems) => {
         if (!outlineItems) return [];
         return outlineItems.map((item, index) => ({
             id: `item-${index}`,
@@ -66,7 +39,7 @@ const PDFOutlineViewer: React.FC<PDFOutlineViewerProps> = ({
     };
 
     // Recursive render function to generate the nested structure
-    const renderTree = (elements: TransformedOutlineItem[]) => {
+    const renderTree = (elements) => {
         return elements.map((item) => {
             if (item.children && item.children.length > 0) {
                 return (

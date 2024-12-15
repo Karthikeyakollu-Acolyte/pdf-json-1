@@ -1,4 +1,4 @@
-import PdfViewer from "@/components/Test"
+import PdfViewer from "@/components/PdfViewer"
 
 type Props = {}
 

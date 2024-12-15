@@ -33,7 +33,7 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts"
-  ],
+, "components/PdfViewer.jsx", "components/PDFOutlineViewer.jsx"  ],
   "exclude": [
     "node_modules"
   ]
